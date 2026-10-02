@@ -1,0 +1,1 @@
+python run.py --city "Karachi, Pakistan" --niche dentist --target 30 --csv-only --no-email

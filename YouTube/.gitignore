@@ -1,0 +1,11 @@
+.env
+service_account.json
+*.db
+*.db-journal
+leads.db
+__pycache__/
+*.pyc
+.venv/
+venv/
+exports/
+ab.py

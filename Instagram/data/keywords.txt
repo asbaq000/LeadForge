@@ -1,0 +1,86 @@
+# Niches to hunt in. One per line; '#' comments and blanks ignored.
+# Duplicates in the original list (Farm Life Vlog, Motorcycle Restoration)
+# are kept only once — the crawler dedupes anyway.
+
+History Documentary
+Classic Car Restoration
+Wildlife Documentary
+Home Renovation DIY
+Ancient History Documentary
+Cozy Lifestyle Vlog
+Aviation Documentary
+Homesteading Vlog
+Mystery Documentary
+Artist Studio Vlog
+WW2 History Documentary
+Walking Tour 4K
+Woodworking Projects
+Science Documentary
+Cottagecore Vlog
+Barn Find Restoration
+Archaeology Documentary
+Travel Documentary
+Farm Life Vlog
+Animal Behavior Documentary
+Victorian House Renovation
+Motorcycle Restoration
+Space Documentary
+Slow Living Vlog
+Military History Documentary
+Jewelry Making Vlog
+Hidden Places Documentary
+Rural Living Vlog
+Car Build Series
+Nature Documentary
+Pottery Studio Vlog
+Urban Exploration Documentary
+Self Sufficient Living
+Painting Process
+Deep Sea Documentary
+Country Living Vlog
+Engineering Documentary
+Vintage Car Reviews
+BookTube
+Nature Conservation Documentary
+Road Trip Documentary
+Creative Process Vlog
+Battlefield Tours
+Room Makeover
+Entrepreneur Vlog
+Aircraft History
+English Countryside Vlog
+Lost Civilizations Documentary
+Beauty Lifestyle Vlog
+How Things Are Made
+Outdoor Adventure
+Urban Planning Documentary
+Writer Vlog
+Factory Documentary
+Self Improvement Vlog
+Ancient Civilizations Documentary
+Golf Vlog
+Off Grid Living
+Technology Documentary
+Wellness Lifestyle Vlog
+Survival Documentary
+Finance Documentary
+Landscape Photography Channel
+Rewilding Documentary
+Business Documentary
+Carpentry Projects
+Productivity Vlog
+Sports Documentary
+Cozy Home Vlog
+Nature Exploration
+Classic Motorcycle Vlog
+Historical Mysteries
+Small Business Vlog
+DIY Restoration
+Adventure Travel Documentary
+Thrifting Vlog
+Military Aviation
+Vintage Lifestyle Vlog
+Photography Documentary
+Rural Homestead
+Scenic Travel Vlog
+Mechanical Restoration

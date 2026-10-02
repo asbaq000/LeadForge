@@ -1,0 +1,8 @@
+playwright>=1.49.0
+gspread>=6.1.2
+google-auth>=2.35.0
+requests>=2.32.0
+beautifulsoup4>=4.12.3
+python-dotenv>=1.0.1
+rich>=13.9.0
+flask>=3.0.0

@@ -1,0 +1,8 @@
+{
+  "name": "leadforge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A shared local workspace for platform scrapers",
+  "scripts": { "start": "node dashboard/server.mjs", "test": "node --test dashboard/test.mjs" },
+  "engines": { "node": ">=20" }
+}

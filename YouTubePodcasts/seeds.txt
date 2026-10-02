@@ -1,0 +1,111 @@
+# Discovery seed keywords -- one per line, "#" starts a comment.
+#
+# Each seed costs 100 quota units per page searched, and evaluating the ~50
+# channels a page returns costs roughly another 100 (channels.list +
+# playlistItems.list + videos.list). So budget ~200 units per seed page:
+# a default 10,000-unit day affords about 45-50 seed pages.
+#
+# This list is ~76 seeds, so a full sweep is roughly a day and a half of
+# quota -- that is deliberate, not an oversight. Seeds are consumed top-down
+# and marked done for the day, so day one gets through the generic and every
+# non-English seed (the ones that make this list worldwide) and runs out
+# somewhere in the genre block. On day two the earlier seeds mostly return
+# channels already in the DB, so they cost only their 100-unit search fee
+# with almost no evaluation behind them, and the tail gets reached.
+#
+# If you would rather cover everything in a single day, cut the genre block
+# down -- it is the least valuable part, since a genre-specific podcast is
+# usually found by the generic seeds anyway.
+#
+# Anything the search returns still has to survive the podcast gate in
+# podcast.py -- these keywords only decide where we look, never what
+# qualifies.
+#
+# Discovery searches VIDEOS published in the last N days, so a hit already
+# proves the channel is active before a single unit is spent verifying it.
+
+# -- generic, highest yield ------------------------------------------------
+podcast episode
+full podcast episode
+podcast interview
+new podcast episode
+podcast clips
+podcast highlights
+
+# -- non-English: this is what makes the list worldwide --------------------
+# The gate recognises "podcast" in all of these scripts, so foreign-language
+# shows qualify on exactly the same evidence English ones do.
+podcast en español
+podcast episodio completo
+podcast português
+podcast brasil
+podcast français
+podcast deutsch
+podcast italiano
+podcast nederlands
+podcast polski
+podcast türkçe
+подкаст
+подкаст интервью
+بودكاست
+بودكاست حلقة كاملة
+पॉडकास्ट
+podcast hindi
+podcast urdu
+ポッドキャスト
+팟캐스트
+播客
+podcast indonesia
+podcast bahasa melayu
+podcast tiếng việt
+พอดแคสต์
+podcast filipino
+podcast africa
+podcast nigeria
+podcast south africa
+
+# -- format-led ------------------------------------------------------------
+long form interview podcast
+video podcast
+talk show interview
+sit down interview podcast
+weekly podcast
+
+# -- genre x podcast -------------------------------------------------------
+business podcast
+entrepreneur podcast
+marketing podcast
+finance podcast
+investing podcast
+crypto podcast
+tech podcast
+ai podcast
+health podcast
+fitness podcast
+mental health podcast
+self improvement podcast
+motivation podcast
+spirituality podcast
+christian podcast
+islamic podcast
+relationship podcast
+dating podcast
+parenting podcast
+true crime podcast
+news podcast
+political podcast
+history podcast
+science podcast
+comedy podcast
+pop culture podcast
+music industry podcast
+gaming podcast
+sports podcast
+football podcast
+travel podcast
+food podcast
+real estate podcast
+career podcast
+leadership podcast
+creator economy podcast
+philosophy podcast

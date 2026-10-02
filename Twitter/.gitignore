@@ -1,0 +1,19 @@
+# Never commit a session file - it holds live X auth tokens.
+session.json
+login_profile/
+seen.json
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+.venv/
+
+# Generated lead exports
+video_editing_*.csv
+video_editing_*.json
+video_editing_*.jsonl
+video_editing_*.txt
+leads.*

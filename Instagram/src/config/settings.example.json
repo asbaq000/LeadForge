@@ -1,0 +1,25 @@
+{
+  "_comment": "Copy to settings.json and edit. Every key is optional; missing keys fall back to the defaults shown here.",
+
+  "_pacing_comment": "Anonymous quota is enforced per IP. These delays are deliberately slow — a block costs 15+ minutes, so waiting 3s per request is always cheaper than getting walled.",
+  "min_delay": 2.5,
+  "max_delay": 5.0,
+  "rotate_after": 25,
+
+  "timeout": 20,
+  "max_retries": 2,
+  "retry_backoff": 3.0,
+
+  "_proxy_comment": "The one thing that actually raises the ceiling. Without proxies you are limited to what a single IP is allowed. Residential proxies work best; datacenter ones are often pre-blocked by Instagram.",
+  "proxies": {},
+
+  "_login_comment": "Optional. Create the session yourself first with: instaloader --login=<username>. Never put a password in this file.",
+  "login_username": null,
+  "session_file": null,
+
+  "output_format": "json",
+  "output_path": "data/output.json",
+  "pretty": true,
+
+  "headers": {}
+}

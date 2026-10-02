@@ -1,0 +1,505 @@
+[
+  {
+    "id": "instagram",
+    "name": "Instagram",
+    "platform": "Instagram",
+    "folder": "Instagram",
+    "command": [
+      "-m",
+      "src.find_creators"
+    ],
+    "description": "Discover creators by keyword, profile, and audience filters.",
+    "category": "Creators",
+    "icon": "◎",
+    "color": "#a94e85",
+    "tint": "#f8edf4",
+    "fields": [
+      {
+        "key": "keywords",
+        "flag": "--keywords",
+        "label": "Keyword file",
+        "type": "text",
+        "placeholder": "data/keywords.txt"
+      },
+      {
+        "key": "input",
+        "flag": "--input",
+        "label": "Profile input file",
+        "type": "text"
+      },
+      {
+        "key": "limit",
+        "flag": "--daily-limit",
+        "label": "Lead limit",
+        "type": "number"
+      },
+      {
+        "key": "min",
+        "flag": "--min-followers",
+        "label": "Minimum followers",
+        "type": "number"
+      },
+      {
+        "key": "max",
+        "flag": "--max-followers",
+        "label": "Maximum followers",
+        "type": "number"
+      },
+      {
+        "key": "dry",
+        "flag": "--dry-run",
+        "label": "Dry run",
+        "type": "checkbox"
+      }
+    ],
+    "configs": [
+      "data/keywords.txt",
+      "src/config/settings.example.json"
+    ],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "instagram-alternative",
+    "name": "Instagram · Alternative",
+    "platform": "Instagram",
+    "folder": "Instagram/Alternative",
+    "command": [
+      "-m",
+      "ig_leads"
+    ],
+    "description": "A second creator discovery engine with niche presets and pacing controls.",
+    "category": "Creators",
+    "icon": "◎",
+    "color": "#a94e85",
+    "tint": "#f8edf4",
+    "fields": [
+      {
+        "key": "niches",
+        "flag": "--niches",
+        "label": "Niches",
+        "type": "text",
+        "placeholder": "Comma-separated niche names"
+      },
+      {
+        "key": "file",
+        "flag": "--niche-file",
+        "label": "Custom niche JSON file",
+        "type": "text"
+      },
+      {
+        "key": "tags",
+        "flag": "--max-tags",
+        "label": "Hashtag limit",
+        "type": "number"
+      },
+      {
+        "key": "accounts",
+        "flag": "--max-accounts",
+        "label": "Account limit",
+        "type": "number"
+      },
+      {
+        "key": "login",
+        "flag": "--login",
+        "label": "Open login browser",
+        "type": "checkbox"
+      },
+      {
+        "key": "dry",
+        "flag": "--dry-run",
+        "label": "Dry run",
+        "type": "checkbox"
+      }
+    ],
+    "configs": [],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "linkedin",
+    "name": "LinkedIn",
+    "platform": "LinkedIn",
+    "folder": "LinkedIn",
+    "command": [
+      "linkedin_bot.py"
+    ],
+    "description": "Collect hiring posts using your keywords, time window, and qualification rules.",
+    "category": "Hiring",
+    "icon": "in",
+    "color": "#3674aa",
+    "tint": "#edf4fa",
+    "fields": [],
+    "configs": [
+      "keywords.txt",
+      "dashboard.config.json"
+    ],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "facebook",
+    "name": "Facebook",
+    "platform": "Facebook",
+    "folder": "Facebook",
+    "command": [
+      "scrape_multi_groups.py"
+    ],
+    "description": "Collect posts from your curated groups and apply configurable qualification filters.",
+    "category": "Communities",
+    "icon": "f",
+    "color": "#446cc4",
+    "tint": "#eff3fc",
+    "fields": [],
+    "configs": [
+      "dashboard.config.json"
+    ],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "google-maps",
+    "name": "Google Maps",
+    "platform": "Google Maps",
+    "folder": "GoogleMaps",
+    "command": [
+      "run.py"
+    ],
+    "description": "Find local businesses across your chosen cities and business categories.",
+    "category": "Businesses",
+    "icon": "⌖",
+    "color": "#478965",
+    "tint": "#eef6ef",
+    "fields": [
+      {
+        "key": "city",
+        "flag": "--city",
+        "label": "City or cities",
+        "type": "text",
+        "required": true,
+        "placeholder": "City, Country"
+      },
+      {
+        "key": "niche",
+        "flag": "--niche",
+        "label": "Business categories",
+        "type": "text",
+        "required": true,
+        "placeholder": "Comma-separated categories"
+      },
+      {
+        "key": "target",
+        "flag": "--target",
+        "label": "Target per category",
+        "type": "number",
+        "min": 1
+      },
+      {
+        "key": "country",
+        "flag": "--country",
+        "label": "Country",
+        "type": "text"
+      },
+      {
+        "key": "queries",
+        "flag": "--queries",
+        "label": "Extra search phrases",
+        "type": "text"
+      },
+      {
+        "key": "csv",
+        "flag": "--csv-only",
+        "label": "CSV only",
+        "type": "checkbox"
+      }
+    ],
+    "configs": [],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "reddit",
+    "name": "Reddit",
+    "platform": "Reddit",
+    "folder": "Reddit",
+    "command": [
+      "-m",
+      "reddit_leads"
+    ],
+    "description": "Search communities with editable subreddits, queries, and scoring vocabulary.",
+    "category": "Communities",
+    "icon": "r",
+    "color": "#d37750",
+    "tint": "#fbf0e9",
+    "fields": [
+      {
+        "key": "limit",
+        "flag": "--limit",
+        "label": "Lead limit",
+        "type": "number",
+        "min": 1
+      },
+      {
+        "key": "days",
+        "flag": "--days",
+        "label": "Lookback days",
+        "type": "number",
+        "min": 1
+      },
+      {
+        "key": "out",
+        "flag": "--out",
+        "label": "CSV output file",
+        "type": "text"
+      }
+    ],
+    "configs": [
+      "reddit_leads/dashboard.config.json"
+    ],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "threads",
+    "name": "Threads",
+    "platform": "Threads",
+    "folder": "Threads",
+    "command": [
+      "run.py",
+      "scrape"
+    ],
+    "description": "Search conversations with configurable keywords, scores, and export settings.",
+    "category": "Conversations",
+    "icon": "@",
+    "color": "#4b5550",
+    "tint": "#f0f2f0",
+    "fields": [
+      {
+        "key": "limit",
+        "flag": "--limit",
+        "label": "Lead limit",
+        "type": "number",
+        "min": 1
+      },
+      {
+        "key": "score",
+        "flag": "--min-score",
+        "label": "Minimum score",
+        "type": "number"
+      },
+      {
+        "key": "nosheet",
+        "flag": "--no-sheet",
+        "label": "Skip Sheets export",
+        "type": "checkbox"
+      },
+      {
+        "key": "dry",
+        "flag": "--dry-run",
+        "label": "Dry run",
+        "type": "checkbox"
+      }
+    ],
+    "configs": [
+      "config.yaml"
+    ],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "twitter",
+    "name": "Twitter / X",
+    "platform": "Twitter / X",
+    "folder": "Twitter",
+    "command": [
+      "-m",
+      "x_leads"
+    ],
+    "description": "Find relevant posts using niche presets, freshness, and location filters.",
+    "category": "Conversations",
+    "icon": "𝕏",
+    "color": "#303d36",
+    "tint": "#eef1ef",
+    "fields": [
+      {
+        "key": "niche",
+        "flag": "--niche",
+        "label": "Niche name or JSON file",
+        "type": "text"
+      },
+      {
+        "key": "hours",
+        "flag": "--hours",
+        "label": "Lookback hours",
+        "type": "number",
+        "min": 1
+      },
+      {
+        "key": "tweets",
+        "flag": "--max-tweets",
+        "label": "Posts per query",
+        "type": "number",
+        "min": 1
+      },
+      {
+        "key": "out",
+        "flag": "--out",
+        "label": "Output file",
+        "type": "text"
+      },
+      {
+        "key": "login",
+        "flag": "--login",
+        "label": "Open login browser",
+        "type": "checkbox"
+      }
+    ],
+    "configs": [
+      "x_leads/niches/video_editing.json"
+    ],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "upwork",
+    "name": "Upwork",
+    "platform": "Upwork",
+    "folder": "Upwork",
+    "command": [
+      "-m",
+      "upwork_scraper"
+    ],
+    "description": "Search job listings by your own keywords, niches, and client filters.",
+    "category": "Freelance",
+    "icon": "Up",
+    "color": "#669441",
+    "tint": "#f0f6e9",
+    "fields": [
+      {
+        "key": "query",
+        "flag": "--query",
+        "label": "Search keywords",
+        "type": "text"
+      },
+      {
+        "key": "niche",
+        "flag": "--niche",
+        "label": "Niche name or JSON file",
+        "type": "text"
+      },
+      {
+        "key": "pages",
+        "flag": "--pages",
+        "label": "Pages to fetch",
+        "type": "number",
+        "min": 1
+      },
+      {
+        "key": "out",
+        "flag": "--out",
+        "label": "Output file",
+        "type": "text"
+      },
+      {
+        "key": "unfiltered",
+        "flag": "--no-filter",
+        "label": "Keep all search results",
+        "type": "checkbox"
+      }
+    ],
+    "configs": [],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "youtube",
+    "name": "YouTube",
+    "platform": "YouTube",
+    "folder": "YouTube",
+    "command": [
+      "main.py",
+      "run"
+    ],
+    "description": "Discover channels from editable seeds, audience filters, and content categories.",
+    "category": "Creators",
+    "icon": "▶",
+    "color": "#bd605c",
+    "tint": "#fbefee",
+    "fields": [
+      {
+        "key": "seed",
+        "flag": "--seed",
+        "label": "Search seed",
+        "type": "text"
+      },
+      {
+        "key": "max",
+        "flag": "--max-channels",
+        "label": "Maximum channels",
+        "type": "number",
+        "min": 1
+      },
+      {
+        "key": "min",
+        "flag": "--min-leads",
+        "label": "Minimum leads",
+        "type": "number"
+      },
+      {
+        "key": "csv",
+        "flag": "--csv-out",
+        "label": "CSV output file",
+        "type": "text"
+      },
+      {
+        "key": "nosheets",
+        "flag": "--no-sheets",
+        "label": "Skip Sheets export",
+        "type": "checkbox"
+      }
+    ],
+    "configs": [
+      "config.yaml",
+      "seeds.txt"
+    ],
+    "creator": "asbaq000"
+  },
+  {
+    "id": "youtube-podcasts",
+    "name": "YouTube Podcasts",
+    "platform": "YouTube Podcasts",
+    "folder": "YouTubePodcasts",
+    "command": [
+      "main.py",
+      "run"
+    ],
+    "description": "Discover podcast channels with configurable seeds and podcast qualification rules.",
+    "category": "Podcasts",
+    "icon": "◉",
+    "color": "#9472ae",
+    "tint": "#f5eff9",
+    "fields": [
+      {
+        "key": "seed",
+        "flag": "--seed",
+        "label": "Search seed",
+        "type": "text"
+      },
+      {
+        "key": "max",
+        "flag": "--max-channels",
+        "label": "Maximum channels",
+        "type": "number",
+        "min": 1
+      },
+      {
+        "key": "min",
+        "flag": "--min-leads",
+        "label": "Minimum leads",
+        "type": "number"
+      },
+      {
+        "key": "nosheets",
+        "flag": "--no-sheets",
+        "label": "Skip Sheets export",
+        "type": "checkbox"
+      }
+    ],
+    "configs": [
+      "config.yaml",
+      "seeds.txt"
+    ],
+    "creator": "asbaq000"
+  }
+]

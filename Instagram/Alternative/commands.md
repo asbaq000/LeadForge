@@ -1,0 +1,1 @@
+python -m ig_leads --max-tags 2 --max-accounts 5

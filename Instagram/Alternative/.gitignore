@@ -1,0 +1,19 @@
+# Credentials and sessions - never commit these.
+.env
+session.json
+login_profile/
+budget.json
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Generated exports
+ig_leads_*.csv
+ig_leads_*.json
+ig_leads_*.txt
+discovered_accounts.csv
+insta_results.csv
+insta_pipeline_results.csv
+leads/

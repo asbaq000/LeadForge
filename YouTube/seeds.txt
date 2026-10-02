@@ -1,0 +1,102 @@
+# Discovery seed keywords -- one per line, "#" starts a comment.
+# Each seed costs 100 quota units per page searched.
+# Broad sweep across niches; animation and motion-graphics channels are
+# filtered out downstream by the exclusion rules, not here.
+
+# ── Story / documentary / explainer ──
+documentary channel
+true crime documentary
+history explained
+war documentary
+mystery unsolved
+video essay
+deep dive explained
+investigation channel
+
+# ── Vlog / lifestyle ──
+daily vlog
+travel vlog
+family vlog
+lifestyle vlog
+day in my life
+van life
+study with me
+
+# ── Tech ──
+tech review
+smartphone review
+pc build
+gadget unboxing
+software tutorial
+coding tutorial
+ai tools review
+
+# ── Business / money ──
+personal finance
+stock market analysis
+crypto analysis
+side hustle ideas
+dropshipping
+digital marketing tips
+real estate investing
+ecommerce business
+
+# ── Health / fitness ──
+fitness coach
+home workout
+weight loss journey
+bodybuilding
+yoga class
+nutrition tips
+mental health talk
+
+# ── Food ──
+cooking channel
+easy recipes
+street food review
+baking tutorial
+restaurant review
+
+# ── Gaming ──
+gaming commentary
+lets play
+game review
+esports highlights
+speedrun
+
+# ── Education ──
+science explained
+math tutorial
+language learning
+exam preparation
+psychology explained
+
+# ── Auto / DIY / trades ──
+car review
+motorcycle vlog
+woodworking project
+diy home improvement
+restoration project
+
+# ── Entertainment / talk ──
+podcast clips
+interview channel
+reaction channel
+comedy sketch
+storytime channel
+
+# ── Creator services / beauty / misc ──
+beauty tutorial
+skincare routine
+fashion haul
+photography tutorial
+music production tutorial
+motivational speech
+self improvement
+book review channel
+sports analysis
+football analysis
+pet care channel
+gardening tips
+minimalism lifestyle
+parenting advice

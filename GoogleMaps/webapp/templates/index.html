@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead Finder — businesses with no website</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📍</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="pin">📍</span>
+    <div>
+      <h1>Lead Finder</h1>
+      <p>Businesses on Google Maps with no website — the ones who need one.</p>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <a id="sheetLink" class="sheet-link" href="#" target="_blank" rel="noopener">
+      <span class="dot" id="sheetDot"></span>
+      <span id="sheetLabel">Google Sheet</span>
+    </a>
+  </div>
+</header>
+
+<div id="setupBanner" class="banner hidden">
+  <div>
+    <strong>Google Sheets is not connected yet.</strong>
+    <span id="setupText"></span>
+  </div>
+  <button class="ghost" id="setupHelpBtn">How do I fix it?</button>
+</div>
+
+<main class="layout">
+
+  <!-- ------------------------------------------------ the form -->
+  <section class="panel form-panel">
+
+    <div class="block">
+      <div class="block-head">
+        <h2>1 · Who do you want to find?</h2>
+        <span class="hint">One tab per client type in your sheet</span>
+      </div>
+      <div class="chip-field" id="nicheField">
+        <div class="chips" id="nicheChips"></div>
+        <input id="nicheInput" list="nicheList" placeholder="Type a client type and press Enter — dentist, gym, salon…" autocomplete="off">
+        <datalist id="nicheList"></datalist>
+      </div>
+      <div class="presets" id="nichePresets"></div>
+    </div>
+
+    <div class="block">
+      <div class="block-head">
+        <h2>2 · Where?</h2>
+        <span class="hint">Country, then any number of cities</span>
+      </div>
+      <label class="field">
+        <span>Country</span>
+        <select id="country"></select>
+      </label>
+      <div class="chip-field" id="cityField">
+        <div class="chips" id="cityChips"></div>
+        <input id="cityInput" list="cityList" placeholder="Type a city and press Enter…" autocomplete="off">
+        <datalist id="cityList"></datalist>
+      </div>
+      <div class="presets" id="cityPresets"></div>
+    </div>
+
+    <div class="block">
+      <div class="block-head">
+        <h2>3 · How many leads?</h2>
+        <span class="hint">Per client type, per city</span>
+      </div>
+      <div class="target-row">
+        <input type="number" id="target" min="1" max="5000" step="10" value="100">
+        <div class="quick" id="targetQuick">
+          <button type="button" data-n="25">25</button>
+          <button type="button" data-n="50">50</button>
+          <button type="button" data-n="100">100</button>
+          <button type="button" data-n="250">250</button>
+          <button type="button" data-n="500">500</button>
+          <button type="button" data-n="1000">1000</button>
+        </div>
+      </div>
+      <p class="plan" id="plan"></p>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><h2>4 · Options</h2></div>
+      <label class="switch">
+        <input type="checkbox" id="pushToSheets" checked>
+        <span>Save to Google Sheet <em>— a tab per client type, no repeats</em></span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="phoneLookup" checked>
+        <span>Open each listing to get the phone number <em>— also confirms it
+        really has no website. Slower, worth it.</em></span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="findEmail">
+        <span>Hunt for emails <em>— very slow, low hit rate</em></span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="showBrowser">
+        <span>Show the browser window <em>— needed to solve a CAPTCHA</em></span>
+      </label>
+
+      <details class="advanced">
+        <summary>Advanced</summary>
+        <label class="field">
+          <span>Google Sheet link</span>
+          <input type="text" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/…">
+        </label>
+        <button type="button" class="ghost small" id="checkSheetBtn">Test the connection</button>
+        <p class="check-result" id="checkResult"></p>
+
+        <div class="grid2">
+          <label class="field"><span>Tile size (km)</span>
+            <input type="number" id="tileKm" step="0.5" min="0.5" value="3"></label>
+          <label class="field"><span>Max tiles</span>
+            <input type="number" id="maxTiles" step="10" min="1" value="400"></label>
+          <label class="field"><span>Email lookups / run</span>
+            <input type="number" id="emailLimit" step="5" min="0" value="25"></label>
+          <label class="field"><span>Listings to open / run</span>
+            <input type="number" id="phoneCap" step="10" min="0" value="250"></label>
+          <label class="field"><span>Min delay (s)</span>
+            <input type="number" id="minDelay" step="0.1" min="0.5" value="1.8"></label>
+          <label class="field"><span>Max delay (s)</span>
+            <input type="number" id="maxDelay" step="0.1" min="0.5" value="4"></label>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="writeCsv" checked>
+          <span>Also write a CSV into <code>out/</code></span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="fresh">
+          <span>Fresh sweep <em>— re-search areas already covered</em></span>
+        </label>
+      </details>
+    </div>
+
+    <div class="actions">
+      <button id="startBtn" class="primary">Find leads</button>
+      <button id="stopBtn" class="danger hidden">Stop</button>
+    </div>
+    <p class="error" id="formError"></p>
+  </section>
+
+  <!-- ------------------------------------------------ the run -->
+  <section class="panel run-panel">
+
+    <div class="status-card">
+      <div class="status-head">
+        <div>
+          <span class="pill" id="statePill">Idle</span>
+          <strong id="currentTask">Nothing running</strong>
+        </div>
+        <span class="muted" id="taskCount"></span>
+      </div>
+      <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+      <div class="bar-label" id="barLabel">Ready when you are.</div>
+
+      <div class="counters">
+        <div><b id="cFound">0</b><span>leads, this list</span></div>
+        <div><b id="cPhones">0</b><span>with phone</span></div>
+        <div><b id="cEmails">0</b><span>with email</span></div>
+        <div><b id="cPushed">0</b><span>rows in sheet</span></div>
+      </div>
+    </div>
+
+    <div id="blockedCard" class="blocked hidden"></div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="activity">Activity</button>
+      <button class="tab" data-tab="leads">Leads <span class="count" id="leadCount">0</span></button>
+      <button class="tab" data-tab="sheet">Your sheet</button>
+    </div>
+
+    <div class="tab-body" id="tab-activity">
+      <div class="log" id="log"></div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-leads">
+      <div class="table-wrap">
+        <table class="leads">
+          <thead><tr>
+            <th>Name</th><th>Phone</th><th>Category</th><th>Area</th><th>Client type</th><th></th>
+          </tr></thead>
+          <tbody id="leadRows"></tbody>
+        </table>
+        <p class="empty" id="leadsEmpty">Leads appear here the moment they are found.</p>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-sheet">
+      <div class="table-wrap">
+        <table class="leads">
+          <thead><tr>
+            <th>Tab</th><th>City</th><th>Leads</th><th>Phone</th><th>Email</th><th>In sheet</th><th></th>
+          </tr></thead>
+          <tbody id="summaryRows"></tbody>
+        </table>
+        <p class="empty" id="summaryEmpty">Nothing collected yet.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog id="helpDialog">
+  <h3>Connecting your Google Sheet</h3>
+  <ol>
+    <li>Create a <b>service account</b> at <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">console.cloud.google.com</a> and enable the <b>Google Sheets API</b> and <b>Google Drive API</b>.</li>
+    <li>Make a JSON key for it and save the file as <code>service_account.json</code> in the project folder.</li>
+    <li>Open your sheet, hit <b>Share</b>, and give <span id="helpEmail" class="mono">the service account's email</span> <b>Editor</b> access.</li>
+    <li>Come back here and press <b>Test the connection</b> under Advanced.</li>
+  </ol>
+  <form method="dialog"><button class="primary">Got it</button></form>
+</dialog>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

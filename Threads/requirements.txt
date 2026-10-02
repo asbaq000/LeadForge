@@ -1,0 +1,7 @@
+playwright==1.49.0
+gspread==6.1.4
+google-auth==2.37.0
+python-dotenv==1.0.1
+PyYAML==6.0.2
+rapidfuzz==3.10.1
+tzdata==2024.2

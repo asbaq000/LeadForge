@@ -1,0 +1,322 @@
+# ============================================================
+#  Threads Lead Scraper - targeting & scoring configuration
+#  Everything here is hot-editable; no code changes needed.
+#  NOTE: regex patterns use SINGLE quotes so backslashes stay literal.
+# ============================================================
+
+run:
+  daily_target: 70          # stop a day's collection once this many NEW leads are banked
+  per_run_cap: 40           # max new leads a single run will push
+  min_score: 50             # 0-100. Posts below this are discarded as noise.
+                            # Measured on live data: the 44 band (domain + medium
+                            # intent, no hiring language) was 6/6 general commentary,
+                            # so the floor sits above it. Real asks clear 50 easily.
+  max_post_age_hours: 96    # ignore anything older than this
+  scrolls_per_query: 16      # scroll depth does NOT count against the search
+                            # ceiling, so this is free volume: same requests,
+                            # ~3x the posts per query. Measured: 6 scrolls gave
+                            # ~38 posts/search.
+  author_cooldown_days: 21  # don't re-surface the same person within this window
+  enrich_profiles: true     # visit profile pages of high scorers for bio/followers
+  enrich_min_score: 60      # only enrich leads at/above this score
+
+pacing:
+  min_delay_ms: 1800
+  max_delay_ms: 4600
+  query_pause_ms: [6000, 14000]
+  max_queries_per_run: 22
+
+# ------------------------------------------------------------
+#  SAFETY - everything here exists to keep the account alive.
+#  Loosening these is the fastest way to get flagged.
+# ------------------------------------------------------------
+safety:
+  # Hard ceilings. Exceeded = run stops, no exceptions.
+  max_searches_per_hour: 12
+  max_searches_per_day: 80
+  max_profile_visits_per_hour: 18
+  session_max_minutes: 18        # a real person does not browse search for an hour
+
+  # Only run when a human in this account's timezone would plausibly be awake.
+  active_hours: [7, 23]          # local hours, inclusive start / exclusive end
+
+  # Circuit breaker: on a login redirect / challenge / rate-limit, stop for this
+  # many hours. Escalates with repeat strikes instead of retrying into a ban.
+  cooldown_hours_on_challenge: [6, 24, 72]
+  strike_reset_days: 7           # clean days before the strike counter resets
+
+  # Look like a person, not a query runner.
+  warmup_feed_scrolls: 3         # browse the home feed before touching search
+  warmup_probability: 0.85       # ...most sessions, not every single one
+  interleave_feed_probability: 0.25   # occasionally drift back to the feed mid-run
+
+  # Refuse to start if another instance is already driving the account.
+  single_instance: true
+
+# ------------------------------------------------------------
+#  SEARCH QUERIES - what actually gets typed into Threads search.
+#  Ordered roughly by lead yield: best first.
+# ------------------------------------------------------------
+#  IMPORTANT: Threads search does LOOSE TOKEN MATCHING, not phrase matching.
+#  Long natural-language queries get diluted and return unrelated posts -
+#  measured live: 'looking for an AI developer' returned 18 posts / 1 usable,
+#  while 'need help automating' returned 30 posts / 6 usable.
+#  So: keep queries SHORT and domain-distinctive, and let the scorer do the
+#  precision work. Volume in, precision at the filter.
+queries:
+  # --- proven / short high-volume (best yield first) ---
+  - 'need help automating'
+  - 'automation help'
+  - 'automate my business'
+  - 'need a developer'
+  - 'n8n help'
+  - 'zapier help'
+  - 'need a chatbot'
+  - 'api integration help'
+  - 'web scraper'
+  - 'automate this'
+  - 'workflow automation'
+  - 'manual data entry'
+  - 'ai agent build'
+  - 'hiring developer'
+  - 'make.com help'
+
+  # --- pain / frustration (softer but warm) ---
+  - 'wasting hours'
+  - 'drowning in admin'
+  - 'too much time on spreadsheets'
+  - 'manually copying data'
+  - 'tedious task'
+
+  # --- tool-specific problem chatter ---
+  - 'openai api help'
+  - 'claude api'
+  - 'langchain problem'
+  - 'rag chatbot'
+  - 'gpt automation'
+  - 'no code automation'
+
+  # --- ICP chatter (founders/agencies who buy this work) ---
+  - 'solopreneur automation'
+  - 'agency automation'
+  - 'ecommerce automation'
+  - 'small business ai'
+  - 'automate lead gen'
+
+  # --- longer intent phrases (kept, but lower priority - they dilute) ---
+  - 'looking for an automation expert'
+  - 'anyone know how to automate'
+  - 'who can build this for me'
+  - 'willing to pay someone to build'
+
+hashtags:
+  - aiautomation
+  - n8n
+  - makecom
+  - zapier
+  - buildinpublic
+  - automation
+  - aiagents
+  - nocode
+  - pythonautomation
+  - saas
+
+# ------------------------------------------------------------
+#  SCORING - score = sum of matched group weights, clamped 0-100.
+#  A group scores its full weight if ANY pattern in it matches.
+# ------------------------------------------------------------
+scoring:
+  # Explicit buying / hiring intent - the highest-value signal.
+  intent_high:
+    weight: 34
+    patterns:
+      - 'looking for (a|an|someone)'
+      - '\bhiring\b'
+      - 'need (a|an|someone|help)'
+      - 'anyone (know|who can|able to)'
+      - 'can (someone|anyone) (build|make|help|automate)'
+      - 'willing to pay'
+      - '\bbudget\b'
+      - '\bquote\b'
+      - 'dm me if you (can|do|know)'
+      - 'recommendations for'
+      - 'who do (i|you) (hire|talk to)'
+      - '\bwtb\b'
+      - 'any (devs|developers|freelancers)'
+      - 'open to (hiring|working with)'
+      - 'reach out if'
+
+  # Softer signals of an unsolved problem.
+  intent_medium:
+    weight: 18
+    patterns:
+      - 'how (do|can) i'
+      - 'struggling with'
+      - '\bstuck on\b'
+      - 'is there a (way|tool)'
+      - 'any (tips|advice|ideas)'
+      - 'wasting (time|hours)'
+      - '\bmanually\b'
+      - '\btedious\b'
+      - 'takes me (hours|forever)'
+      - '\bhelp me\b'
+      - 'trying to figure out'
+      - '\bpain point\b'
+
+  # Does the post live in our service domain at all?
+  domain:
+    weight: 26
+    patterns:
+      - '\bai\b'
+      - 'automat(e|ion|ing)'
+      - '\bagent(s)?\b'
+      - '\bchatbot\b'
+      - '\bn8n\b'
+      - 'make\.com'
+      - '\bzapier\b'
+      - '\bapi\b'
+      - 'integrat(e|ion)'
+      - 'script(ing)?'
+      - '\bpython\b'
+      - 'scrap(e|er|ing)'
+      - '\bworkflow\b'
+      - '\bgpt\b'
+      - '\bopenai\b'
+      - '\bclaude\b'
+      - '\blangchain\b'
+      - '\brag\b'
+      - '\bllm\b'
+      - 'no-?code'
+      - '\bcrm\b'
+      - '\bwebhook\b'
+      - '\bsaas\b'
+      - '\bmvp\b'
+      - 'data entry'
+      - '\bspreadsheet'
+
+  # Person looks like a buyer (has a business / budget).
+  icp:
+    weight: 14
+    patterns:
+      - '\bfounder\b'
+      - '\bceo\b'
+      - 'my (business|company|agency|startup|store|team|clients)'
+      - '\bagency\b'
+      - '\bsolopreneur\b'
+      - '\becommerce\b'
+      - '\bshopify\b'
+      - '\bcoach(ing)?\b'
+      - 'real estate'
+      - '\bclients\b'
+      - '\bteam of\b'
+      - 'small business'
+
+  # Contact path already exposed - easier to convert.
+  contactable:
+    weight: 8
+    patterns:
+      - '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}'
+      - 'calendly\.com'
+      - 'cal\.com'
+      - '\bdm me\b'
+      - '\bdms open\b'
+
+  # NEGATIVE - this person is SELLING, not buying. Push them out.
+  seller_negative:
+    weight: -45
+    patterns:
+      - 'i (build|help|create|make) .{0,30}(businesses|founders|brands|clients|agencies)'
+      # NOT a bare '\bmy agency\b' - buyers own agencies too, and that pattern was
+      # costing -45 on a genuine "my agency is drowning in manual work" lead.
+      - '\bmy agency (helps|builds|offers|specialis|is a|can)\b'
+      - '\bwe (offer|provide|build|help)\b'
+      - 'dm me for (a|the|my|free)'
+      - 'link in bio'
+      - 'free (guide|training|ebook|template|course|workshop|masterclass)'
+      - '\bcohort\b'
+      - '\bjoin my\b'
+      - 'book a call with me'
+      - 'here.{0,3}s how (i|we)'
+      - 'follow for more'
+      - '\bi.?ll show you\b'
+      - '\bsteal my\b'
+      - 'clients paid me'
+      - '\bmy course\b'
+      # --- added from live Threads data: offer-shaped posts that were slipping through ---
+      - '\bwe (can|could|also) ?(help|offer|provide|handle|manage|build)\b'
+      - '\bwe.{0,3}ve (built|helped|worked|delivered|done)\b'
+      - '\bi ?(a|.)?m your (guy|person|girl|dev|developer)\b'
+      - '\bi can (build|help|automate|create|develop|set ?up|handle)\b'
+      - '\bi (specialis|specializ)e in\b'
+      - '\bour (team|agency|clients|process|portfolio) (specialis|specializ|is|are|has|have)'
+      - '\bavailable for (work|hire|projects|freelance)\b'
+      - '\bopen to (work|projects|freelance|new clients)\b'
+      - '\bhire me\b'
+      - '\breach out to (me|us)\b'
+      - '\bthe fastest way to\b'
+      - '\byou don.{0,3}t need (a|an|more|bigger)\b'
+      - '\bcomment or dm\b'
+      - '\bthat.{0,3}s where (i|we) come in\b'
+      # A post that opens by addressing someone else is a reply, and replies in
+      # this niche are overwhelmingly pitches rather than people asking for help.
+      - '^\s*(hi|hey|hello|yo)\s+@\w+'
+      # --- second pass: patterns from sellers that reached the live sheet ---
+      - 'looking for \d+ (people|persons|folks|clients|students|businesses)'
+      - '\bi (can|will) personally\b'
+      - '\bi ?a?m an (expert|specialist|pro)\b'
+      - '\bdms? (are |is )?open\b'
+      - '\bkindly let me know\b'
+      # "Need help with YOUR x? DM us" is an advert; "I need help with MY x" is a
+      # lead. The possessive carries the whole distinction.
+      - '\b(need|want|struggling with) [^.!?]{0,40}\byour\b[^.!?]{0,30}\?'
+      - '\bhelp with your\b'
+      - '\bsend (us|me) a (dm|message)\b'
+      - '\bdm (us|me) (today|now|to get|for a)\b'
+      - '^\s*stop \w+ing\b'
+      - '\bwill help you\b'
+      - '\bhere.{0,3}s the (automations?|workflow|system|setup|checklist|prompt)'
+      - '\bi stopped \w+ing\b'
+      - '\b(checklist|template|playbook|cheat ?sheet|blueprint|framework) for\b'
+      - '\b\d+.page (guide|checklist|pdf|doc)'
+      - '\bin case it helps\b'
+      - '\bthese (ai |automation )?tools\b'
+      - '\bif you.{0,20}(need|want|are building).{0,40}(i am|i.{0,2}m|my dms|reach out)'
+
+  # NEGATIVE - job seekers. They want a job, not to hire us.
+  jobseeker_negative:
+    weight: -40
+    patterns:
+      - '\binternship\b'
+      - 'looking for (an? )?(internship|job|role|position|opportunity)'
+      - '\bfresh (graduate|grad)\b'
+      - '\bmy (cv|resume|portfolio)\b'
+      - '\bopen to work\b'
+      - '\bbachelor of\b'
+      - '\bseeking (an? )?(internship|role|position)'
+      - '\bavailable (immediately|for hire)\b'
+
+  # NEGATIVE - noise / non-commercial chatter.
+  noise_negative:
+    weight: -25
+    patterns:
+      - '^\s*(gm|gn)\b'
+      - 'happy (monday|friday|new year)'
+      - '\bgiveaway\b'
+      - '\bcrypto\b'
+      - '\bnft\b'
+      - '\bairdrop\b'
+      - '\bfollow ?back\b'
+      - '\bf4f\b'
+
+# Tags written to the sheet so a human can triage at a glance.
+topic_tags:
+  ai_agents:   ['ai agent', 'agents', 'autonomous', 'multi-agent']
+  chatbot:     ['chatbot', 'chat bot', 'support bot', 'customer service bot']
+  n8n:         ['n8n']
+  make_zapier: ['make.com', 'zapier', 'integromat']
+  scraping:    ['scrape', 'scraper', 'scraping', 'crawler', 'data extraction']
+  api_integr:  ['api', 'integration', 'webhook', 'endpoint']
+  python:      ['python', 'script', 'scripting', 'pandas', 'selenium']
+  llm_custom:  ['gpt', 'openai', 'claude', 'llm', 'langchain', 'rag', 'fine-tune']
+  nocode:      ['no-code', 'nocode', 'low-code', 'bubble', 'airtable']
+  data_ops:    ['spreadsheet', 'google sheets', 'excel', 'data entry', 'crm']

@@ -1,0 +1,16 @@
+# Secrets - never commit
+.env
+service_account.json
+client_secret_*.json
+# Any JSON at the project root is assumed to be a credential file.
+/*.json
+
+# Session / state
+auth/
+data/
+*.db
+*.log
+*.lock
+
+__pycache__/
+*.pyc

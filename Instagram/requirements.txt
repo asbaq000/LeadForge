@@ -1,0 +1,9 @@
+requests>=2.31.0
+
+# Google Sheets delivery (src/outputs/sheets.py).
+gspread>=6.0
+google-auth>=2.0
+
+# Optional — only needed for src/discovery/hashtag_search.py, the logged-in
+# discovery route. Everything else runs without it.
+instaloader>=4.14

@@ -1,0 +1,16 @@
+{
+  "DAYS_BACK": 2,
+  "SHEET_NAME": "Lead Scraper",
+  "TAB_NAME": "Facebook URLs",
+  "SHEET_KEY": "",
+  "MAX_LEADS_PER_RUN": 20,
+  "SCROLL_ROUNDS": 3,
+  "CHROME_DEBUGGER_ADDRESS": "127.0.0.1:9222",
+  "MAX_POSTS_PER_RUN": 60,
+  "EXCLUDE_SELLER_POSTS": true,
+  "EXCLUDE_ONSITE_POSTS": true,
+  "REQUIRE_CLEAR_BUYER_INTENT": true,
+  "REQUIRE_VIDEO_EDITING_CONTEXT": true,
+  "GROQ_MODEL": "llama-3.3-70b-versatile",
+  "GROQ_ENABLED": true
+}

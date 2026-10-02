@@ -1,0 +1,4 @@
+playwright>=1.44
+gspread>=6.0
+google-auth>=2.29
+requests>=2.31

@@ -1,0 +1,586 @@
+{
+  "name": "creator_niches",
+  "description": "Long-form content niches whose creators need heavy editing - documentaries, restoration builds, vlogs, making and DIY.",
+  "_comment_niches": [
+    "Each niche is searched as one or more Instagram hashtags. The literal",
+    "phrase comes first, then fallbacks - Instagram tags are noun-phrase",
+    "driven, so 'How Things Are Made' is nearly empty as one word while",
+    "#howitsmade is not.",
+    "",
+    "One hashtag costs ONE request and returns ~30 accounts, so discovery is",
+    "cheap. Profile checks are what spend the budget: pick a few niches per",
+    "run with --niches or --max-tags rather than sweeping all of them."
+  ],
+  "niches": [
+    {
+      "name": "History Documentary",
+      "hashtags": [
+        "historydocumentary",
+        "historybuff"
+      ]
+    },
+    {
+      "name": "Classic Car Restoration",
+      "hashtags": [
+        "classiccarrestoration",
+        "restorationproject"
+      ]
+    },
+    {
+      "name": "Wildlife Documentary",
+      "hashtags": [
+        "wildlifedocumentary",
+        "wildlifefilm"
+      ]
+    },
+    {
+      "name": "Home Renovation DIY",
+      "hashtags": [
+        "homerenovationdiy",
+        "homerenovation",
+        "diyhome"
+      ]
+    },
+    {
+      "name": "Ancient History Documentary",
+      "hashtags": [
+        "ancienthistorydocumentary",
+        "ancienthistory"
+      ]
+    },
+    {
+      "name": "Cozy Lifestyle Vlog",
+      "hashtags": [
+        "cozylifestylevlog",
+        "cozyvibes"
+      ]
+    },
+    {
+      "name": "Aviation Documentary",
+      "hashtags": [
+        "aviationdocumentary",
+        "aviationlovers"
+      ]
+    },
+    {
+      "name": "Homesteading Vlog",
+      "hashtags": [
+        "homesteadingvlog",
+        "homesteading"
+      ]
+    },
+    {
+      "name": "Mystery Documentary",
+      "hashtags": [
+        "mysterydocumentary",
+        "unsolvedmysteries"
+      ]
+    },
+    {
+      "name": "Artist Studio Vlog",
+      "hashtags": [
+        "artiststudiovlog",
+        "studiovlog"
+      ]
+    },
+    {
+      "name": "WW2 History Documentary",
+      "hashtags": [
+        "ww2historydocumentary",
+        "ww2history"
+      ]
+    },
+    {
+      "name": "Walking Tour 4K",
+      "hashtags": [
+        "walkingtour4k",
+        "walkingtour"
+      ]
+    },
+    {
+      "name": "Woodworking Projects",
+      "hashtags": [
+        "woodworkingprojects",
+        "woodworking"
+      ]
+    },
+    {
+      "name": "Science Documentary",
+      "hashtags": [
+        "sciencedocumentary",
+        "sciencecommunication"
+      ]
+    },
+    {
+      "name": "Cottagecore Vlog",
+      "hashtags": [
+        "cottagecorevlog",
+        "cottagecore"
+      ]
+    },
+    {
+      "name": "Barn Find Restoration",
+      "hashtags": [
+        "barnfindrestoration",
+        "barnfind"
+      ]
+    },
+    {
+      "name": "Archaeology Documentary",
+      "hashtags": [
+        "archaeologydocumentary",
+        "archaeology"
+      ]
+    },
+    {
+      "name": "Travel Documentary",
+      "hashtags": [
+        "traveldocumentary",
+        "travelfilm"
+      ]
+    },
+    {
+      "name": "Farm Life Vlog",
+      "hashtags": [
+        "farmlifevlog",
+        "farmlife"
+      ]
+    },
+    {
+      "name": "Animal Behavior Documentary",
+      "hashtags": [
+        "animalbehaviordocumentary",
+        "wildlifephotography"
+      ]
+    },
+    {
+      "name": "Victorian House Renovation",
+      "hashtags": [
+        "victorianhouserenovation",
+        "victorianhouse",
+        "oldhouselove"
+      ]
+    },
+    {
+      "name": "Motorcycle Restoration",
+      "hashtags": [
+        "motorcyclerestoration",
+        "caferacerbuild"
+      ]
+    },
+    {
+      "name": "Space Documentary",
+      "hashtags": [
+        "spacedocumentary",
+        "astrophotography"
+      ]
+    },
+    {
+      "name": "Slow Living Vlog",
+      "hashtags": [
+        "slowlivingvlog",
+        "slowliving"
+      ]
+    },
+    {
+      "name": "Military History Documentary",
+      "hashtags": [
+        "militaryhistorydocumentary",
+        "militaryhistory"
+      ]
+    },
+    {
+      "name": "Jewelry Making Vlog",
+      "hashtags": [
+        "jewelrymakingvlog",
+        "jewelrymaking"
+      ]
+    },
+    {
+      "name": "Hidden Places Documentary",
+      "hashtags": [
+        "hiddenplacesdocumentary",
+        "abandonedplaces"
+      ]
+    },
+    {
+      "name": "Rural Living Vlog",
+      "hashtags": [
+        "rurallivingvlog",
+        "rurallife"
+      ]
+    },
+    {
+      "name": "Car Build Series",
+      "hashtags": [
+        "carbuildseries",
+        "carbuild",
+        "projectcar"
+      ]
+    },
+    {
+      "name": "Nature Documentary",
+      "hashtags": [
+        "naturedocumentary",
+        "naturefilm"
+      ]
+    },
+    {
+      "name": "Pottery Studio Vlog",
+      "hashtags": [
+        "potterystudiovlog",
+        "potterystudio"
+      ]
+    },
+    {
+      "name": "Urban Exploration Documentary",
+      "hashtags": [
+        "urbanexplorationdocumentary",
+        "urbex"
+      ]
+    },
+    {
+      "name": "Self Sufficient Living",
+      "hashtags": [
+        "selfsufficientliving",
+        "selfsufficient"
+      ]
+    },
+    {
+      "name": "Painting Process",
+      "hashtags": [
+        "paintingprocess"
+      ]
+    },
+    {
+      "name": "Deep Sea Documentary",
+      "hashtags": [
+        "deepseadocumentary",
+        "oceanlife"
+      ]
+    },
+    {
+      "name": "Country Living Vlog",
+      "hashtags": [
+        "countrylivingvlog",
+        "countryliving"
+      ]
+    },
+    {
+      "name": "Engineering Documentary",
+      "hashtags": [
+        "engineeringdocumentary",
+        "engineering"
+      ]
+    },
+    {
+      "name": "Vintage Car Reviews",
+      "hashtags": [
+        "vintagecarreviews",
+        "vintagecars"
+      ]
+    },
+    {
+      "name": "BookTube",
+      "hashtags": [
+        "booktube",
+        "bookstagram"
+      ]
+    },
+    {
+      "name": "Nature Conservation Documentary",
+      "hashtags": [
+        "natureconservationdocumentary",
+        "conservation"
+      ]
+    },
+    {
+      "name": "Road Trip Documentary",
+      "hashtags": [
+        "roadtripdocumentary",
+        "roadtrip"
+      ]
+    },
+    {
+      "name": "Creative Process Vlog",
+      "hashtags": [
+        "creativeprocessvlog",
+        "creativeprocess"
+      ]
+    },
+    {
+      "name": "Battlefield Tours",
+      "hashtags": [
+        "battlefieldtours",
+        "battlefield"
+      ]
+    },
+    {
+      "name": "Room Makeover",
+      "hashtags": [
+        "roommakeover"
+      ]
+    },
+    {
+      "name": "Entrepreneur Vlog",
+      "hashtags": [
+        "entrepreneurvlog",
+        "entrepreneurlife"
+      ]
+    },
+    {
+      "name": "Aircraft History",
+      "hashtags": [
+        "aircrafthistory",
+        "warbirds"
+      ]
+    },
+    {
+      "name": "English Countryside Vlog",
+      "hashtags": [
+        "englishcountrysidevlog",
+        "englishcountryside"
+      ]
+    },
+    {
+      "name": "Lost Civilizations Documentary",
+      "hashtags": [
+        "lostcivilizationsdocumentary",
+        "lostcivilizations"
+      ]
+    },
+    {
+      "name": "Beauty Lifestyle Vlog",
+      "hashtags": [
+        "beautylifestylevlog",
+        "beautyvlogger"
+      ]
+    },
+    {
+      "name": "How Things Are Made",
+      "hashtags": [
+        "howthingsaremade",
+        "howitsmade"
+      ]
+    },
+    {
+      "name": "Outdoor Adventure",
+      "hashtags": [
+        "outdooradventure"
+      ]
+    },
+    {
+      "name": "Urban Planning Documentary",
+      "hashtags": [
+        "urbanplanningdocumentary",
+        "urbanplanning"
+      ]
+    },
+    {
+      "name": "Writer Vlog",
+      "hashtags": [
+        "writervlog",
+        "writerslife"
+      ]
+    },
+    {
+      "name": "Factory Documentary",
+      "hashtags": [
+        "factorydocumentary",
+        "manufacturing"
+      ]
+    },
+    {
+      "name": "Self Improvement Vlog",
+      "hashtags": [
+        "selfimprovementvlog",
+        "selfimprovement"
+      ]
+    },
+    {
+      "name": "Ancient Civilizations Documentary",
+      "hashtags": [
+        "ancientcivilizationsdocumentary",
+        "ancientcivilizations"
+      ]
+    },
+    {
+      "name": "Golf Vlog",
+      "hashtags": [
+        "golfvlog"
+      ]
+    },
+    {
+      "name": "Off Grid Living",
+      "hashtags": [
+        "offgridliving"
+      ]
+    },
+    {
+      "name": "Technology Documentary",
+      "hashtags": [
+        "technologydocumentary",
+        "techreview"
+      ]
+    },
+    {
+      "name": "Wellness Lifestyle Vlog",
+      "hashtags": [
+        "wellnesslifestylevlog",
+        "wellnessjourney"
+      ]
+    },
+    {
+      "name": "Survival Documentary",
+      "hashtags": [
+        "survivaldocumentary",
+        "bushcraft"
+      ]
+    },
+    {
+      "name": "Finance Documentary",
+      "hashtags": [
+        "financedocumentary",
+        "personalfinance"
+      ]
+    },
+    {
+      "name": "Landscape Photography Channel",
+      "hashtags": [
+        "landscapephotographychannel",
+        "landscapephotography"
+      ]
+    },
+    {
+      "name": "Rewilding Documentary",
+      "hashtags": [
+        "rewildingdocumentary",
+        "rewilding"
+      ]
+    },
+    {
+      "name": "Business Documentary",
+      "hashtags": [
+        "businessdocumentary",
+        "businessowner"
+      ]
+    },
+    {
+      "name": "Carpentry Projects",
+      "hashtags": [
+        "carpentryprojects",
+        "carpentry"
+      ]
+    },
+    {
+      "name": "Productivity Vlog",
+      "hashtags": [
+        "productivityvlog",
+        "productivity"
+      ]
+    },
+    {
+      "name": "Sports Documentary",
+      "hashtags": [
+        "sportsdocumentary"
+      ]
+    },
+    {
+      "name": "Cozy Home Vlog",
+      "hashtags": [
+        "cozyhomevlog",
+        "cozyhome"
+      ]
+    },
+    {
+      "name": "Nature Exploration",
+      "hashtags": [
+        "natureexploration",
+        "hikingadventures"
+      ]
+    },
+    {
+      "name": "Classic Motorcycle Vlog",
+      "hashtags": [
+        "classicmotorcyclevlog",
+        "classicmotorcycle"
+      ]
+    },
+    {
+      "name": "Historical Mysteries",
+      "hashtags": [
+        "historicalmysteries",
+        "historicalmystery"
+      ]
+    },
+    {
+      "name": "Small Business Vlog",
+      "hashtags": [
+        "smallbusinessvlog",
+        "smallbusinessowner"
+      ]
+    },
+    {
+      "name": "DIY Restoration",
+      "hashtags": [
+        "diyrestoration",
+        "restoration"
+      ]
+    },
+    {
+      "name": "Adventure Travel Documentary",
+      "hashtags": [
+        "adventuretraveldocumentary",
+        "adventuretravel"
+      ]
+    },
+    {
+      "name": "Thrifting Vlog",
+      "hashtags": [
+        "thriftingvlog",
+        "thrifting"
+      ]
+    },
+    {
+      "name": "Military Aviation",
+      "hashtags": [
+        "militaryaviation"
+      ]
+    },
+    {
+      "name": "Vintage Lifestyle Vlog",
+      "hashtags": [
+        "vintagelifestylevlog",
+        "vintagestyle"
+      ]
+    },
+    {
+      "name": "Photography Documentary",
+      "hashtags": [
+        "photographydocumentary",
+        "photographylife"
+      ]
+    },
+    {
+      "name": "Rural Homestead",
+      "hashtags": [
+        "ruralhomestead",
+        "homestead"
+      ]
+    },
+    {
+      "name": "Scenic Travel Vlog",
+      "hashtags": [
+        "scenictravelvlog",
+        "scenicviews"
+      ]
+    },
+    {
+      "name": "Mechanical Restoration",
+      "hashtags": [
+        "mechanicalrestoration",
+        "enginerebuild"
+      ]
+    }
+  ]
+}

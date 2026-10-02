@@ -1,0 +1,183 @@
+# ─────────────────────────────────────────────────────────────
+#  YouTube PODCASTER lead scraper -- all tunables live here.
+#  Nothing in this file is secret; keys go in .env
+# ─────────────────────────────────────────────────────────────
+
+discovery:
+  seeds_file: seeds.txt
+  # Each search page costs 100 quota units and yields <=50 candidates.
+  # 1 page per seed is the efficient default; raise only if you have quota
+  # to burn. See the budget note at the top of seeds.txt.
+  search_pages_per_seed: 1
+  search_order: relevance          # relevance | viewCount | date
+  # BLANK on purpose -- this list is meant to be worldwide. Setting either of
+  # these narrows the sweep to one country/language and is usually a mistake
+  # here; the seeds file already covers ~20 languages.
+  region_code: ""                  # "US", "GB", "PK"... blank = worldwide
+  relevance_language: ""           # blank = any language
+  # Podcasts publish weekly or biweekly far more often than daily, so this
+  # window is wider than a general-purpose channel scraper would use.
+  video_published_within_days: 45
+  snowball: true                   # expand via featured channels of qualified leads (1 unit each)
+  snowball_max_per_channel: 25
+
+  # How many NEW podcasters one `run` should deliver. This is both a floor
+  # and a HARD CAP:
+  #   * short of it, `run` keeps making discovery passes (one page deeper per
+  #     seed each time) until it gets there, runs out of quota, or hits
+  #     max_discovery_passes;
+  #   * the moment it reaches it, evaluation stops mid-batch. Candidates still
+  #     queued are left unevaluated and therefore unknown to the DB, so the
+  #     next run picks them up instead of them being burned.
+  # Override per-run with --min-leads.
+  min_qualified_leads: 30
+  max_discovery_passes: 6          # safety cap so a starved sweep can't loop forever
+
+filters:
+  # Small and mid-size shows reply to cold outreach far more often than
+  # 1M-subscriber ones, and they are the realistic buyers.
+  min_subscribers: 500
+  max_subscribers: 500000
+  reject_hidden_subscribers: true
+  min_videos: 5
+  # Cadence, enforced two ways. Deliberately looser than a general channel
+  # scraper: a fortnightly podcast is a perfectly healthy podcast, and
+  # cutting at 21 days would throw away most of the market.
+  max_days_since_last_upload: 45   # the most recent upload must be this fresh
+  max_median_gap_days: 30          # and the typical gap must hold up
+  uploads_sample_size: 20
+  min_uploads_sampled: 4           # too few uploads to judge cadence -> reject
+  require_contact: true            # drop leads with no email, socials or booking form
+  # One host often runs several shows off a single booking address. Keeping
+  # only the first channel per email stops you cold-mailing them twice.
+  dedupe_by_email: true
+
+podcast:
+  # THE GATE. A channel qualifies if podcast.py's evidence score clears this,
+  # OR if it hits either decisive signal on its own:
+  #   * "podcast" in the channel name (in any supported language), or
+  #   * a link to a real podcast platform (Spotify show, Apple Podcasts, RSS,
+  #     Buzzsprout, Libsyn, Captivate, ...).
+  # Everything else -- episode numbering, guest markers, long runtimes,
+  # talk-show wording -- accumulates toward this number.
+  #
+  # Lower it to ~4 to catch more unbranded interview shows at the cost of
+  # some false positives; raise it to ~7 for a tighter, smaller list.
+  min_score: 5.0
+
+  # Channels scoring at least this much get their About page fetched even
+  # though they have not passed yet -- an About-only Spotify link flips a lot
+  # of borderline cases. Below it, we reject without the HTTP round trip.
+  # Defaults to min_score - 3.5 if omitted.
+  borderline_score: 1.5
+
+  # Strict mode: require one of the two DECISIVE signals (name or platform
+  # link), rejecting anything that only qualified on accumulated evidence.
+  # Much cleaner list, materially fewer leads. Off by default.
+  require_platform_or_name: false
+
+  # Let the LLM veto a lead it is confident is not a podcast. The veto is
+  # ignored for high-confidence channels -- a show that links its own Spotify
+  # feed stays a lead no matter what an 8B model thinks.
+  honour_llm_veto: true
+
+  # 1 extra quota unit per channel for videos.list: episode runtimes, the
+  # shorts/clips share, and average views per episode. This is what turns
+  # "a channel" into "a 74-minute weekly interview show averaging 12k views",
+  # and runtime is one of the strongest podcast signals. Worth the unit.
+  episode_stats: true
+
+  # Hard floor on median episode length in minutes, applied to everything
+  # except clips-format channels. 0 = off. Set to ~15 if you only want
+  # full-episode shows and no audiogram or micro-podcast feeds.
+  min_median_minutes: 0
+
+  # Keyword genre scoring only kicks in when the LLM chain is off or fails.
+  genre_min_score: 2.0
+
+classify:
+  # Real profiling via free LLMs: genre, format, host name, language, and a
+  # second opinion on whether the channel is a podcast at all.
+  #
+  # There is ALWAYS an offline answer underneath this, so no API outage can
+  # cost you a lead: the genre comes from keyword scoring and the host name
+  # and language are read straight out of the channel's own title and bio
+  # ("Matt Beall Podcast" -> Matt Beall, "Podcast With Jeegar" -> Jeegar).
+  #
+  # method: llm walks every configured attempt below in order and merges its
+  # answer OVER that offline profile, field by field -- so the model wins
+  # where it answered and the offline read fills every gap it left. If every
+  # provider fails, the offline profile stands (see fallback_to_keyword).
+  #
+  # method: keyword skips the network entirely. You keep every lead, every
+  # contact detail and most host names; genres are rougher.
+  method: llm                      # llm | keyword
+
+  # Tried in this exact order; a provider is skipped entirely if it has no
+  # key in .env. OpenRouter expands to one attempt PER KEY in
+  # OPENROUTER_API_KEYS, tried in the order you listed them, so 5 keys there
+  # means up to 5 separate attempts before the chain gives up.
+  llm_provider_order: [groq, gemini, openrouter]
+
+  # MODEL IDS GO STALE AND THEN EVERYTHING SILENTLY "FAILS".
+  # All three providers retire models on their own schedule. When that
+  # happens the API returns HTTP 404 and every channel comes back
+  # unclassified -- it looks exactly like an exhausted free tier but is not.
+  # Run `python main.py test-llm` to see the real status of each provider in
+  # one shot, then update the ids below.
+  #   Groq:       console.groq.com/docs/models
+  #   Gemini:     ai.google.dev/gemini-api/docs/models
+  #   OpenRouter: openrouter.ai/models?max_price=0   (must end in ":free")
+  llm_model_groq: openai/gpt-oss-20b
+  # "-latest" is an alias Google keeps pointing at a current model, so this
+  # one survives version rotations that break a pinned id.
+  llm_model_gemini: gemini-flash-lite-latest
+  llm_model_openrouter: "nvidia/nemotron-nano-9b-v2:free"
+
+  # Requests/minute PER PROVIDER -- each has a different free-tier ceiling.
+  # Check console.groq.com/settings/limits, aistudio.google.com, and
+  # openrouter.ai/settings/limits and adjust; these change over time and
+  # are not something to hardcode.
+  llm_rpm_groq: 28
+  llm_rpm_gemini: 14
+  llm_rpm_openrouter: 18
+
+  llm_timeout: 20
+  # Retries PER PROVIDER before the chain moves to the next one. Kept low on
+  # purpose -- with several providers to fall through, it's better to move on
+  # quickly than to hammer a struggling one.
+  llm_max_retries: 2
+
+  # DO NOT SET THIS LOW. Current models spend tokens on hidden reasoning
+  # before they write the answer, so a small budget returns a completely
+  # EMPTY reply -- not a truncated one. At 160 every provider looked broken;
+  # at 900 the same models answer perfectly. Only lower it if you are certain
+  # your model does no reasoning.
+  llm_max_tokens: 1500
+
+  # When every provider fails, keep the offline profile (keyword genre plus
+  # the host name and language read out of the channel's own title and bio)
+  # instead of parking the lead at "pending_classification". A run should
+  # never be blocked by someone else's API being down.
+  # Set false to get pending rows you backfill later with `reclassify`.
+  fallback_to_keyword: true
+
+quota:
+  daily_limit: 10000               # default YouTube Data API v3 allowance
+  reserve: 200                     # stop this far short so a run never dies mid-write
+
+about_page:
+  # Reads the public channel About page for the links the Data API never
+  # exposes. For a podcast list this is not optional decoration: Spotify and
+  # Apple links live here far more often than in the description, and they
+  # are the highest-precision podcast signal the gate has.
+  enabled: true
+  delay_seconds: 1.5               # be polite; this is plain HTTP, not the API
+  timeout: 15
+
+sheets:
+  master_tab: "Podcaster Leads"
+  # One flat list is easier to work than 30 near-empty genre tabs -- Genre is
+  # just a column you filter on. Set true to also mirror each lead into a tab
+  # named after its genre.
+  tab_per_genre: false

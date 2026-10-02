@@ -1,0 +1,104 @@
+# ─────────────────────────────────────────────────────────────
+#  YouTube lead scraper -- all tunables live here.
+#  Nothing in this file is secret; keys go in .env
+# ─────────────────────────────────────────────────────────────
+
+discovery:
+  seeds_file: seeds.txt
+  # Each search page costs 100 quota units and yields <=50 candidates.
+  # 1 page per seed is the efficient default; raise only if you have quota to burn.
+  search_pages_per_seed: 1
+  search_order: relevance          # relevance | viewCount | date
+  region_code: ""                  # "US", "GB", "PK"... blank = worldwide
+  relevance_language: en           # blank = any language
+  # Discovery searches VIDEOS published recently, so candidates are already
+  # biased toward active channels before we spend a single unit verifying them.
+  video_published_within_days: 21
+  snowball: true                   # expand via featured channels of qualified leads (1 unit each)
+  snowball_max_per_channel: 25
+
+  # `run` will not stop after one pass if it falls short of this many
+  # qualified leads -- it goes back for another discovery pass (one page
+  # deeper per seed each time) until it clears this floor, runs out of
+  # quota, or hits max_discovery_passes. Override per-run with --min-leads.
+  min_qualified_leads: 50
+  max_discovery_passes: 6          # safety cap so a starved niche can't loop forever
+
+filters:
+  min_subscribers: 1000
+  max_subscribers: 1000000
+  reject_hidden_subscribers: true
+  min_videos: 5
+  # "At least one upload per 3 weeks", enforced two ways:
+  max_days_since_last_upload: 21   # the most recent upload must be this fresh
+  max_median_gap_days: 21          # and the typical gap between uploads must hold up
+  uploads_sample_size: 15
+  min_uploads_sampled: 4           # too few uploads to judge cadence -> reject
+  require_contact: true            # drop leads with no email AND no socials
+  # Creators often run several channels off one business address. Keeping only
+  # the first channel per email stops you cold-mailing the same person twice.
+  dedupe_by_email: true
+
+exclude:
+  animation: true                  # cartoon / anime / 2D-3D animated channels
+  motion_graphics: true            # heavy motion-design, After Effects, VFX channels
+  threshold: 4.0                   # weighted keyword score needed to trigger an exclusion
+
+classify:
+  min_score: 2.0                   # only used when method: keyword, below this -> "other"
+
+  # Real content-type classification via free LLMs. Exclusion (animation/
+  # motion graphics, above) still runs on keywords first -- this only
+  # decides the category for channels that survive exclusion.
+  #
+  # method: llm is entirely API-dependent -- it does NOT fall back to a
+  # keyword guess. It walks every configured attempt below in order; if all
+  # of them fail for a channel, that lead is still saved in full (contact
+  # info, everything) with category = "pending_classification" instead of
+  # being guessed at. Run `python main.py reclassify` once keys have room
+  # again to finish classifying every pending lead. Set this to "keyword" to
+  # go back to the old zero-API, zero-cost behavior instead.
+  method: llm                      # llm | keyword
+
+  # Tried in this exact order; a provider is skipped entirely if it has no
+  # key in .env. OpenRouter expands to one attempt PER KEY in
+  # OPENROUTER_API_KEYS, tried in the order you listed them, so 5 keys there
+  # means up to 5 separate attempts before Groq/Gemini even get skipped-past.
+  llm_provider_order: [groq, gemini, openrouter]
+
+  llm_model_groq: llama-3.1-8b-instant
+  llm_model_gemini: gemini-2.0-flash-lite
+  # Free-tier model on OpenRouter -- these rotate over time. If this one 404s
+  # or disappears, pick another ":free"-suffixed model at
+  # openrouter.ai/models?max_price=0 and drop its id in here. Every
+  # OPENROUTER_API_KEYS key uses this same model.
+  llm_model_openrouter: "meta-llama/llama-3.3-70b-instruct:free"
+
+  # Requests/minute PER PROVIDER -- each has a different free-tier ceiling.
+  # Check console.groq.com/settings/limits, aistudio.google.com, and
+  # openrouter.ai/settings/limits and adjust; these change over time and
+  # are not something to hardcode.
+  llm_rpm_groq: 28
+  llm_rpm_gemini: 14
+  llm_rpm_openrouter: 18
+
+  llm_timeout: 20
+  # Retries PER PROVIDER before the chain moves to the next one. Kept low on
+  # purpose -- with three providers to fall through, it's better to move on
+  # quickly than to hammer a struggling one.
+  llm_max_retries: 2
+
+quota:
+  daily_limit: 10000               # default YouTube Data API v3 allowance
+  reserve: 200                     # stop this far short so a run never dies mid-write
+
+about_page:
+  # Reads the public channel About page for social links the API does not expose.
+  enabled: true
+  delay_seconds: 1.5               # be polite; this is plain HTTP, not the API
+  timeout: 15
+
+sheets:
+  master_tab: "Youtube Leads"
+  tab_per_category: false          # single tab -- Content Type is just a column
+  rejected_tab: ""                 # set a name to also log rejects, e.g. "Rejected"

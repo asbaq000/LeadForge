@@ -1,0 +1,17 @@
+# Secrets - never commit
+credentials.json
+GROQ_API_KEY.txt
+*.env
+
+# Browser session / cookies
+linkedin_profile/
+
+# Runtime state
+run_state.json
+keyword_rotation.json
+debug/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

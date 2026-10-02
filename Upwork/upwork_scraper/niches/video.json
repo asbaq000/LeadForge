@@ -1,0 +1,52 @@
+{
+  "name": "video",
+  "description": "Video editing, YouTube channels, short-form social video, and creator/influencer content work",
+
+  "_comment_keywords": "Sent to Upwork as separate searches. Each one costs one request per page per cycle, so add with intent. Ordered roughly by how central they are to the niche.",
+  "keywords": [
+    "video editing",
+    "video editor",
+    "youtube",
+    "youtube channel",
+    "youtube shorts",
+    "youtube thumbnail",
+    "video production",
+    "videographer",
+    "short form video",
+    "motion graphics",
+    "after effects",
+    "premiere pro",
+    "davinci resolve",
+    "instagram reels",
+    "tiktok",
+    "content creator",
+    "social media video",
+    "podcast editing",
+    "ugc video",
+    "influencer"
+  ],
+
+  "_comment_match_terms": "A job is kept when any of these appears in its title or skills. Broad searches like 'influencer' and 'social media video' return marketing roles with no video work, and this is what filters them out.",
+  "match_terms": [
+    "video", "youtube", "shorts", "reel", "tiktok", "vlog", "vfx",
+    "motion graphic", "motion design", "after effect", "premiere pro",
+    "davinci", "final cut", "capcut", "thumbnail", "videographer",
+    "b-roll", "b roll", "footage", "color grading", "colour grading",
+    "subtitle", "caption", "podcast", "twitch", "streamer", "stream clip",
+    "livestream", "live stream", "film", "filming", "cinematograph",
+    "animation", "animator", "editor", "editing", "content creator",
+    "creator", "influencer", "ugc", "voice over", "voiceover",
+    "sound design", "audio edit", "storyboard", "explainer", "trailer",
+    "documentary", "camera", "post-production", "post production",
+    "adobe", "avid", "premiere", "clip"
+  ],
+
+  "_comment_exclude_terms": "Checked against the TITLE only. Skills are not checked, because a genuine video job can carry an unrelated skill tag like 'Lead Generation' and would be wrongly dropped.",
+  "exclude_terms": [
+    "wordpress developer", "shopify developer", "web developer",
+    "website developer", "full stack", "backend developer",
+    "data entry", "bookkeep", "cold call", "appointment setter",
+    "resume writer", "penetration test", "salesforce", "excel dashboard",
+    "blog post writer", "seo article"
+  ]
+}
